@@ -7,12 +7,7 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const notoRegular = readFileSync(`${__dirname}/../_fonts/NotoSansJp-Regular.woff2`).toString("base64");
 const notoBold = readFileSync(`${__dirname}/../_fonts/NotoSansJp-Bold.woff2`).toString("base64");
-const interRegular = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const interBold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const veraMono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
-
 const icon = readFileSync(`${__dirname}/../../public/icon.png`).toString('base64');
 
 function getCss(fontSize: string) {
@@ -23,37 +18,9 @@ function getCss(fontSize: string) {
     @font-face {
         font-family: 'Noto Sans JP';
         font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${notoRegular}) format('woff2');
-    }
-    
-    @font-face {
-        font-family: 'Noto Sans JP';
-        font-style:  normal;
         font-weight: bold;
         src: url(data:font/woff2;charset=utf-8;base64,${notoBold}) format('woff2');
     }
-    
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${interRegular}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${interBold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Vera';
-        font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${veraMono})  format("woff2");
-      }
 
     body {
         background: ${background};
