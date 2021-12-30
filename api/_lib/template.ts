@@ -7,46 +7,77 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const notoRegular = readFileSync(`${__dirname}/../_fonts/NotoSansJp-Regular.woff2`).toString("base64");
+const notoBold = readFileSync(`${__dirname}/../_fonts/NotoSansJp-Bold.woff2`).toString("base64");
+const interRegular = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
+const interBold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
+const veraMono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+
+const icon = readFileSync(`${__dirname}/../../public/icon.png`).toString('base64');
 
 function getCss(fontSize: string) {
     let background = 'white';
     let foreground = 'black';
-    let radial = 'lightgray';
 
     return `
+    @font-face {
+        font-family: 'Noto Sans JP';
+        font-style:  normal;
+        font-weight: normal;
+        src: url(data:font/woff2;charset=utf-8;base64,${notoRegular}) format('woff2');
+    }
+    
+    @font-face {
+        font-family: 'Noto Sans JP';
+        font-style:  normal;
+        font-weight: bold;
+        src: url(data:font/woff2;charset=utf-8;base64,${notoBold}) format('woff2');
+    }
+    
     @font-face {
         font-family: 'Inter';
         font-style:  normal;
         font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
+        src: url(data:font/woff2;charset=utf-8;base64,${interRegular}) format('woff2');
     }
 
     @font-face {
         font-family: 'Inter';
         font-style:  normal;
         font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
+        src: url(data:font/woff2;charset=utf-8;base64,${interBold}) format('woff2');
     }
 
     @font-face {
         font-family: 'Vera';
         font-style: normal;
         font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
+        src: url(data:font/woff2;charset=utf-8;base64,${veraMono})  format("woff2");
       }
 
     body {
         background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
         height: 100vh;
         display: flex;
         text-align: center;
         align-items: center;
         justify-content: center;
+    }
+    
+    .border {
+        border-bottom: 20px solid rgba(184, 156, 94, 1);
+        box-sizing: border-box;
+    }
+    
+    .wrapper {
+        width: 1200px;
+        height: 630px;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 60px;
+        margin-right: 60px;
     }
 
     code {
@@ -78,10 +109,6 @@ function getCss(fontSize: string) {
         font-size: 100px;
     }
 
-    .spacer {
-        margin: 150px;
-    }
-
     .emoji {
         height: 1em;
         width: 1em;
@@ -90,12 +117,33 @@ function getCss(fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Noto Sans JP', 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
+        font-weight: bold;
         color: ${foreground};
         line-height: 1.8;
-    }`;
+        margin-top: 70px;
+    }
+    
+    .footer {
+        width: 100%;
+        font-family: 'Noto Sans JP', 'Inter', sans-serif;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: bold;
+        color: ${foreground};
+        line-height: 1.0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    img {
+        height: 48px;
+        margin-right: 8px;
+    }
+    `;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
@@ -109,17 +157,16 @@ export function getHtml(parsedReq: ParsedRequest) {
         ${getCss(fontSize)}
     </style>
     <body>
-        <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
-            </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
+        <div class="border">
+            <div class="wrapper">
+                <div class="heading">${emojify(
+                    md ? marked(text) : sanitizeHtml(text)
+                )}
+                </div>
+                <div class="footer">
+                    <img src="data:image/png;base64,${icon}">
+                    <p>taznica.com</p>
+                </div>
             </div>
         </div>
     </body>
