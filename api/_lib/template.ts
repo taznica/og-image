@@ -32,8 +32,8 @@ function getCss(fontSize: string) {
     }
     
     .border {
-        width: 1200px;
-        height: 630px;
+        width: calc(1200px + 6px);
+        height: calc(630px + 6px);
         border-bottom: 20px solid rgba(184, 156, 94, 1);
         box-sizing: border-box;
     }
