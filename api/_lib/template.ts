@@ -32,13 +32,13 @@ function getCss(fontSize: string) {
     }
     
     .border {
+        width: 1200px;
+        height: 630px;
         border-bottom: 20px solid rgba(184, 156, 94, 1);
         box-sizing: border-box;
     }
     
     .wrapper {
-        width: 1200px;
-        height: 630px;
         display: flex;
         align-items: flex-start;
         flex-direction: column;
