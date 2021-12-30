@@ -7,7 +7,7 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const notoBold = readFileSync(`${__dirname}/../_fonts/NotoSansJp-Bold.woff2`).toString("base64");
+const notoBold = readFileSync(`${__dirname}/../_fonts/NotoSansJP-Bold-Subset.woff2`).toString("base64");
 const icon = readFileSync(`${__dirname}/../../public/icon.png`).toString('base64');
 
 function getCss(fontSize: string) {
